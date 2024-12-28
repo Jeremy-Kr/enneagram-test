@@ -1,4 +1,5 @@
-import ResultComponent from "@/app/result/ResultComponent";
+import { Suspense } from "react";
+import ResultComponent from "./ResultComponent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,5 +11,20 @@ export const metadata: Metadata = {
 };
 
 export default function ResultPage() {
-  return <ResultComponent />;
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+          <div className="text-center space-y-4">
+            <div className="w-16 h-16 mx-auto border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-gray-700 dark:text-gray-200 font-medium">
+              결과를 불러오는 중이에요...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <ResultComponent />
+    </Suspense>
+  );
 }
