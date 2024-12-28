@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Metadata } from "next";
+import AdBanner from "@/components/AdBanner";
 
 export const metadata: Metadata = {
   title: "에니어그램 테스트",
@@ -47,6 +48,8 @@ export default function HomePage() {
               전문적인 심리 검사를 대체할 수 없습니다.
             </p>
           </div>
+
+          <AdBanner slot="9485799142" className="mt-8" />
         </div>
       </main>
     </div>

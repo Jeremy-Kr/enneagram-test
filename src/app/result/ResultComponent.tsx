@@ -13,6 +13,7 @@ import {
 import { EnneagramType, TypeScore } from "@/types/enneagram";
 import { typeDescriptions } from "@/data/typeDescriptions";
 import { useRouter } from "next/navigation";
+import AdBanner from "@/components/AdBanner";
 
 export default function ResultComponent() {
   const searchParams = useSearchParams();
@@ -136,6 +137,9 @@ export default function ResultComponent() {
             </p>
           </div>
 
+          {/* 첫 번째 광고 (결과 요약 아래) */}
+          <AdBanner slot="8582322353" className="mt-8 mb-4" />
+
           {/* 레이더 차트 */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-4 sm:p-6">
             <h3 className="text-xl font-medium mb-4 text-center text-gray-900 dark:text-white">
@@ -171,6 +175,9 @@ export default function ResultComponent() {
               </ResponsiveContainer>
             </div>
           </div>
+
+          {/* 두 번째 광고 (레이더 차트 아래) */}
+          <AdBanner slot="4665190276" className="my-4" />
 
           {/* 상세 점수 */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
