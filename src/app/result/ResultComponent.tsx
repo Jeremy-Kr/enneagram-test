@@ -14,6 +14,7 @@ import { EnneagramType, TypeScore } from "@/types/enneagram";
 import { typeDescriptions } from "@/data/typeDescriptions";
 import { useRouter } from "next/navigation";
 import AdBanner from "@/components/AdBanner";
+import { Share2 } from "lucide-react";
 
 export default function ResultComponent() {
   const searchParams = useSearchParams();
@@ -85,6 +86,31 @@ export default function ResultComponent() {
     [scores]
   );
 
+  const handleShare = async () => {
+    try {
+      const shareUrl = `${
+        window.location.origin
+      }/result?scores=${searchParams.get("scores")}`;
+
+      if (navigator.share) {
+        // 모바일 네이티브 공유
+        await navigator.share({
+          title: "에니어그램 테스트 결과",
+          text: `저는 ${primaryType.type}번 (${
+            typeDescriptions[primaryType.type].title
+          }) 유형입니다!`,
+          url: shareUrl,
+        });
+      } else {
+        // 클립보드 복사
+        await navigator.clipboard.writeText(shareUrl);
+        alert("결과 링크가 클립보드에 복사되었습니다!");
+      }
+    } catch (error) {
+      console.error("공유 중 오류 발생:", error);
+    }
+  };
+
   if (!searchParams.get("scores")) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -128,6 +154,13 @@ export default function ResultComponent() {
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               당신의 에니어그램 분석 결과
             </h1>
+            <button
+              onClick={handleShare}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500 dark:bg-indigo-600 text-white rounded-lg hover:bg-indigo-600 dark:hover:bg-indigo-500 transition-colors"
+            >
+              <Share2 size={20} />
+              결과 공유하기
+            </button>
             <p className="text-lg text-gray-800 dark:text-gray-100">
               주요 유형은 {primaryType.type}번 (
               {typeDescriptions[primaryType.type].title}) 이며,
@@ -245,15 +278,21 @@ export default function ResultComponent() {
             </div>
           </div>
 
-          {/* 테스트 다시하기 버튼 */}
-          <div className="flex justify-center">
+          {/* 하단 버튼 그룹 */}
+          <div className="flex justify-center gap-4">
             <Link
               href="/test"
               className="px-6 py-4 bg-indigo-500 dark:bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-600 dark:hover:bg-indigo-500 transition-colors"
-              aria-label="테스트 다시 시작하기"
             >
-              테스트 다시하기
+              나도 테스트하기
             </Link>
+            <button
+              onClick={handleShare}
+              className="px-6 py-4 bg-white dark:bg-gray-800 text-indigo-500 dark:text-indigo-400 font-medium rounded-xl border-2 border-indigo-500 dark:border-indigo-600 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors inline-flex items-center gap-2"
+            >
+              <Share2 size={20} />
+              결과 공유하기
+            </button>
           </div>
         </div>
       </main>

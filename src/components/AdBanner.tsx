@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useId, useRef } from "react";
 
 interface AdBannerProps {
   className?: string;
@@ -15,10 +15,16 @@ export default function AdBanner({
   format = "auto",
   slot,
 }: AdBannerProps) {
+  const id = useId();
+  const initialized = useRef(false);
+
   useEffect(() => {
+    if (initialized.current) return;
+
     try {
       // @ts-expect-error - window.adsbygoogle is injected by the AdSense script
       (window.adsbygoogle = window.adsbygoogle || []).push({});
+      initialized.current = true;
     } catch (err) {
       console.error("AdSense 에러:", err);
     }
@@ -33,6 +39,7 @@ export default function AdBanner({
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive="true"
+        id={id}
       />
     </div>
   );
